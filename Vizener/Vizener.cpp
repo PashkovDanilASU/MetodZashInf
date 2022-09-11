@@ -1,20 +1,59 @@
-﻿// Vizener.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿
+ #include <iostream>
+#include <string>
+#include <fstream>
 
-#include <iostream>
+using namespace std;
+
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
-}
+    setlocale(LC_ALL, "ru");
 
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
+    char symbol_1;
+    char symbol_2;
+    int i = 0;
+    ifstream fin,finshifr;
+    ofstream foutshifr,foutdeshifr;
+    string key;
 
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
+    fin.open("ShortText.txt");
+    foutshifr.open("Shifr.txt");
+    cout << "Введите ключ для кодирования:";
+
+    getline(cin, key);
+    
+
+    while (fin.get(symbol_1))
+    {
+        foutshifr << char(key[i] + symbol_1);
+        if (i == key.length() - 1)
+            i = 0;
+        else
+            i++; 
+    };
+    foutshifr.close();
+
+    i = 0;
+    finshifr.open("Shifr.txt");
+    foutdeshifr.open("Deshifr.txt");
+    cout << "Введите ключ для раскодирования:";
+    getline(cin, key);
+
+    while (finshifr.get(symbol_2))
+    {
+        foutdeshifr << char(symbol_2 - key[i]);
+        if (i == key.length() - 1)
+            i = 0;
+        else
+            i++;
+    };
+
+
+    fin.close();
+    foutdeshifr.close();
+    finshifr.close();
+    
+    return 0;
+}  
